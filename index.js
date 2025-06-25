@@ -24,9 +24,12 @@ const markCommit = (x, y) => {
 
 const makeCommits = (n) => {
   if(n===0) return simpleGit().push();
-  const x = random.int(0, 54);
-  const y = random.int(0, 6);
-  const date = moment().subtract(1, "y").add(1, "d").add(x, "w").add(y, "d").format();
+  
+  // Generate random date specifically in 2024
+  const startDate = moment("2024-01-01");
+  const endDate = moment("2024-12-31");
+  const randomDays = random.int(0, endDate.diff(startDate, 'days'));
+  const date = startDate.add(randomDays, 'days').format();
 
   const data = {
     date: date,
@@ -37,4 +40,5 @@ const makeCommits = (n) => {
   });
 };
 
-makeCommits(100);
+// Create 500 commits for maximum greenness
+makeCommits(500);
