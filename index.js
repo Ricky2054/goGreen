@@ -31,12 +31,19 @@ const makeCommits = (n) => {
   const randomDays = random.int(0, endDate.diff(startDate, 'days'));
   const date = startDate.add(randomDays, 'days').format();
 
+  // Create unique content for each commit
   const data = {
     date: date,
+    commit: n,
+    timestamp: Date.now(),
+    random: Math.random()
   };
+  
   console.log(date);
   jsonfile.writeFile(path, data, () => {
-    simpleGit().add([path]).commit(date, { "--date": date },makeCommits.bind(this,--n));
+    simpleGit().add([path]).commit(date, { "--date": date }, () => {
+      makeCommits(n - 1);
+    });
   });
 };
 
